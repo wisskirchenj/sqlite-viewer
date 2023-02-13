@@ -3,7 +3,7 @@
 Implemented in the <b>Java Desktop Application Developer</b> Track of hyperskill.org JetBrain Academy.  
 
 Project goal is to further practice graphical Java application design with event threading and
-listener / observer techniques; especially using a JTable in an application. Moreover the growing
+listener / observer techniques; especially using a JTable in an application. Moreover, the growing
 app may serve as a useful database inspection tool.
 
 ## Technology / External Libraries
@@ -31,4 +31,6 @@ Sources for all project tasks (4 stages) with tests and configurations.
 ## Progress
 
 06.02.23 Project started. Setup of build and repo with gradle on Kotlin basis.
+
+13.02.23 Stage 1 completed. Setup and layout of JFrame with file entry field and open button.
 
