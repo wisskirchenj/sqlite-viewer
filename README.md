@@ -12,7 +12,7 @@ app may serve as a useful database inspection tool.
 - Swing
 - Lombok
 - Unit Tests with Junit-Jupiter and Mockito
-- Gradle 7.6
+- Gradle 8.0
 
 ## Program description
 
@@ -34,3 +34,9 @@ Sources for all project tasks (4 stages) with tests and configurations.
 
 13.02.23 Stage 1 completed. Setup and layout of JFrame with file entry field and open button.
 
+20.02.23 Stage 2 completed. Connect to database given by user entry and populate combo box with the tables contained
+in that database. When a table in the combo box is selected, the query text area is prepopulated with a query for this
+table.
+
+21.02.23 Stage 3 completed. Implement Execution of arbitrary queries for any table in a connected database. Add Jtable
+with DefaultTableModel filled by the DbAdapter on Execute button action.
