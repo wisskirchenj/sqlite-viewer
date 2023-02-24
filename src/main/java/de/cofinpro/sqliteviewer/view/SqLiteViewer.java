@@ -42,6 +42,7 @@ public class SqLiteViewer extends JFrame implements FormElementsAccess {
     private final transient SqLiteViewerModel model;
     private JTextField fileNameTextField;
     private JTextArea queryTextArea;
+    private JButton executeButton;
     private JComboBox<String> tablesComboBox;
     private JTable jTable;
 
@@ -54,6 +55,7 @@ public class SqLiteViewer extends JFrame implements FormElementsAccess {
         model = new SqLiteViewerModel(this);
         add(createEntryPanel(), BorderLayout.NORTH);
         add(createSqlViewPort(), BorderLayout.CENTER);
+        setEnabledSqlViewPort(false);
         setVisible(true);
     }
 
@@ -89,7 +91,7 @@ public class SqLiteViewer extends JFrame implements FormElementsAccess {
     }
 
     private Component createExecuteButton() {
-        final var executeButton = new JButton(EXECUTE_BUTTON_TEXT);
+        executeButton = new JButton(EXECUTE_BUTTON_TEXT);
         executeButton.setBounds(605, 5, 90, 40);
         executeButton.setName(EXECUTE_QUERY_BUTTON);
         executeButton.addActionListener(new ExecuteButtonListener(model));
@@ -145,5 +147,11 @@ public class SqLiteViewer extends JFrame implements FormElementsAccess {
     @Override
     public void setTableModel(TableModel tableModel) {
         jTable.setModel(tableModel);
+    }
+
+    @Override
+    public void setEnabledSqlViewPort(boolean value) {
+        executeButton.setEnabled(value);
+        queryTextArea.setEnabled(value);
     }
 }

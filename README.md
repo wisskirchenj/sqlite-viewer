@@ -12,6 +12,7 @@ app may serve as a useful database inspection tool.
 - Swing
 - Lombok
 - Unit Tests with Junit-Jupiter and Mockito
+- Mockito MockStatic and MockAppender for Log4J in Unit-Tests
 - Gradle 8.0
 
 ## Program description
@@ -22,7 +23,7 @@ Have fun!
 
 ## Project completion
 
-[//]: # (Project was completed on 19.06.23.)
+Project was completed on 24.02.23.
 
 ## Repository Contents
 
@@ -40,3 +41,6 @@ table.
 
 21.02.23 Stage 3 completed. Implement Execution of arbitrary queries for any table in a connected database. Add Jtable
 with DefaultTableModel filled by the DbAdapter on Execute button action.
+
+24.02.23 Final Stage 4 completed. Implement JOptionPanes in error cases, open databases readonly to avoid Database SQL
+injection, use MockAppender to assert on Logging Events and mockito MockStatic to mock away blocking JOptionPane dialog.

@@ -5,13 +5,21 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import static org.apache.logging.log4j.Level.ERROR;
 import static org.apache.logging.log4j.Level.WARN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(MockitoExtension.class)
 class DbAdapterTest {
 
     static final String smallDbPath = "test.db";
@@ -29,7 +37,9 @@ class DbAdapterTest {
     @Test
     void whenNonExist_WarnMessage() {
         addMockAppender(WARN);
-        new DbAdapter("nonexist.db");
+        try (MockedStatic<JOptionPane> ignoredMock = Mockito.mockStatic(JOptionPane.class)) {
+            new DbAdapter("nonexist.db");
+        }
         assertEquals(1, mockedAppender.getMessages().size());
         assertEquals(mockedAppender.getMessages().get(0), "Database-File nonexist.db does not exist!");
         logger.removeAppender(mockedAppender);
@@ -63,8 +73,23 @@ class DbAdapterTest {
 
     @Test
     void whenNoDb_EmptyTableModelReturned() {
-        var dbAdapter = new DbAdapter("not_there");
-        assertEquals(0, dbAdapter.connectAndGetTableData("SELECT * FROM TABLE;").getRowCount());
+        try (MockedStatic<JOptionPane> ignoredMock = Mockito.mockStatic(JOptionPane.class)) {
+            var dbAdapter = new DbAdapter("not_there");
+            assertEquals(0, dbAdapter.connectAndGetTableData("SELECT * FROM TABLE;").getRowCount());
+        }
+    }
+
+    @Test
+    void whenInvalidQuery_ErrorLogAndEmptyTableModelReturned() {
+        addMockAppender(ERROR);
+        var dbAdapter = new DbAdapter(largeDbPath);
+        try (MockedStatic<JOptionPane> ignoredMock = Mockito.mockStatic(JOptionPane.class)) {
+            assertEquals(0, dbAdapter.connectAndGetTableData("SELECT * FROM accont;").getRowCount());
+        }
+        assertEquals(2, mockedAppender.getMessages().size());
+        assertEquals("", mockedAppender.getMessages().get(0));
+        assertTrue(mockedAppender.getMessages().get(1).contains("Exception"));
+        logger.removeAppender(mockedAppender);
     }
 
     @Test

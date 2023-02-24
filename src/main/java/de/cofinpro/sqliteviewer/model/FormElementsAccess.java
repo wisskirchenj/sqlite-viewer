@@ -19,4 +19,6 @@ public interface FormElementsAccess {
     void setTableNameChoices(Collection<String> tableNames);
 
     void setTableModel(TableModel tableModel);
+
+    void setEnabledSqlViewPort(boolean value);
 }

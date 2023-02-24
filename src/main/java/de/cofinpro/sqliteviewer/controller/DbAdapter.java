@@ -1,6 +1,7 @@
 package de.cofinpro.sqliteviewer.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
 import java.nio.file.Files;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,15 +24,18 @@ public class DbAdapter {
     private final SQLiteDataSource database;
 
     /**
-     * open a SQLiteDatasource if the given file path is a regular file, else database set to null.
+     * open a SQLiteDatasource in read-only mode(!), if the given file path is a regular file, else database set to null.
      * @param dbFile file to open.
      */
     public DbAdapter(String dbFile) {
         if (Files.isRegularFile(Path.of(dbFile))) {
-            database = new SQLiteDataSource();
+            final var config = new SQLiteConfig();
+            config.setReadOnly(true);
+            database = new SQLiteDataSource(config);
             database.setUrl("jdbc:sqlite:" + dbFile);
         } else {
             log.warn("Database-File {} does not exist!", dbFile);
+            showErrorDialog("File doesn't exist!");
             database = null;
         }
     }
@@ -51,6 +56,7 @@ public class DbAdapter {
                 tableModel.addRow(getRowData(resultSet, columns));
             }
         } catch (SQLException e) {
+            showErrorDialog(e.getMessage());
             log.error("", e);
         }
         return tableModel;
@@ -97,5 +103,13 @@ public class DbAdapter {
         }
         log.debug("{}", tableNames);
         return tableNames;
+    }
+
+    public boolean isConnected() {
+        return database != null;
+    }
+
+    private static void showErrorDialog(String errorMessage) {
+        JOptionPane.showMessageDialog(null, errorMessage);
     }
 }

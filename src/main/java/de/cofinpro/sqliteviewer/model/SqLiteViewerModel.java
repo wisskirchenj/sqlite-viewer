@@ -32,6 +32,12 @@ public class SqLiteViewerModel {
         log.debug("connecting to {}", getDbFileToOpen());
         dbAdapter = new DbAdapter(getDbFileToOpen());
         setTableNameChoices(dbAdapter.connectAndGetTableNames());
+        if (dbAdapter.isConnected()) {
+            sqLiteViewer.setEnabledSqlViewPort(true);
+        } else {
+            sqLiteViewer.setEnabledSqlViewPort(false);
+            sqLiteViewer.setTableModel(new DefaultTableModel());
+        }
     }
 
     /**

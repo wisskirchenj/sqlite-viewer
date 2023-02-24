@@ -18,5 +18,6 @@ public class MockedAppender extends AbstractAppender {
     @Override
     public void append(LogEvent event) {
         messages.add(event.getMessage().getFormattedMessage());
+        messages.add(event.getThrown().toString());
     }
 }

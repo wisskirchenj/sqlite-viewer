@@ -17,7 +17,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:2.20.0")
     implementation("org.apache.logging.log4j:log4j-core:2.20.0")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0")
-    implementation("org.xerial:sqlite-jdbc:3.40.1.0")
+    implementation("org.xerial:sqlite-jdbc:3.41.0.0")
 
     compileOnly("org.projectlombok:lombok:1.18.26")
     annotationProcessor("org.projectlombok:lombok:1.18.26")
